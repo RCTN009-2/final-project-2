@@ -7,7 +7,8 @@ import { CartContext } from "../contexs/CartContext";
 const Product = ({ product }) => {
   const { addToCart } = useContext(CartContext);
   //destructure product
-  const { id, image, category, title, price } = product;
+  const { id, image, category, title, price, stock } = product;
+
   return (
     <div>
       <div className="border border-[#e4e4e4] h-[250px] mb-4 relative overflow-hidden group transition">
@@ -44,6 +45,7 @@ const Product = ({ product }) => {
           <h2 className="font-semibold mb-1">{title}</h2>
         </Link>
         <div className="font-semibold">$ {price}</div>
+        <div className="text-sm font-normal mb-6 custom-stock-info"> Stock: {stock} unit</div>
       </div>
     </div>
   );
