@@ -1,22 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import { SideBarContext } from "../contexs/SidebarContext";
-import { BsBag } from "react-icons/bs";
+import { BsCart } from "react-icons/bs";
 import { CartContext } from "../contexs/CartContext";
 import { Link } from "react-router-dom";
-import Logo from "../assets/img/logo.svg";
 
 const Header = () => {
-  //header state
+  // Header state
   const [isActive, setIsActive] = useState(false);
   const { isOpen, setIsOpen } = useContext(SideBarContext);
   const { itemAmount } = useContext(CartContext);
 
-  //event listener
+  // Event listener
   useEffect(() => {
     window.addEventListener("scroll", () => {
       window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
     });
   });
+
   return (
     <header
       className={`${
@@ -25,18 +25,23 @@ const Header = () => {
     >
       <div className="container mx-auto flex items-center justify-between h-full">
         <Link to={"/"}>
-          <div>
-            <img className="w-[40px]" src={Logo} alt="/" />
-          </div>
+          <div className="mx-8">Home</div>
         </Link>
-        <div
-          onClick={() => setIsOpen(!isOpen)}
-          className="cursor-poiter flex relative"
-        >
-          <BsBag className="text-2xl" />
-          <div className="bg-red-500 absolute -right-2 -bottom-2 text-[12px] w-[18px] h-[18px] text-white rounded-full flex justify-center items-center">
-            {itemAmount}
+        <div className="flex items-center">
+          <div
+            onClick={() => setIsOpen(!isOpen)}
+            className="cursor-pointer flex relative mx-7"
+          >
+            <BsCart className="text-2xl ml-0 mr-2" />
+            <span className="mr-2">My Cart</span>
+            <div className="bg-red-500 absolute -right-2 -bottom-2 text-[12px] w-[18px] h-[18px] text-white rounded-full flex justify-center items-center">
+              {itemAmount}
+            </div>
           </div>
+
+          <Link to={"/login"}>
+            <div className="mr-0">Login</div>
+          </Link>
         </div>
       </div>
     </header>
