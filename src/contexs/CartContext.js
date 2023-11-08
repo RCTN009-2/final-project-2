@@ -27,6 +27,26 @@ const CartProvider = ({ children }) => {
     }
   });
 
+  const checkout = () => {
+    // Iterasi melalui setiap item di keranjang
+    cart.forEach((item) => {
+      // Periksa apakah quantity lebih kecil atau sama dengan stok
+      if (item.amount <= item.stock) {
+        // Kurangi stok sesuai dengan quantity
+        // Implementasikan fungsi pengurangan stok sesuai kebutuhan aplikasi
+        // Misalnya, bisa dengan mengirimkan permintaan ke server
+        // atau memperbarui stok secara lokal jika hanya di sisi klien
+        // contoh: updateStockOnServer(item.id, item.stock - item.amount);
+      } else {
+        // Handle jika quantity tidak terpenuhi
+        console.warn(`Quantity for item ${item.title} not available`);
+      }
+    });
+
+    // Kosongkan keranjang setelah checkout
+    clearCart();
+  };
+
   //add to cart
   const addToCart = (product, id) => {
     const newItem = { ...product, amount: 1 };
@@ -87,6 +107,7 @@ const CartProvider = ({ children }) => {
       removeFromCart(id);
     }
   };
+  
 
   return (
     <CartContext.Provider
@@ -99,6 +120,7 @@ const CartProvider = ({ children }) => {
         decreaseAmount,
         itemAmount,
         total,
+        checkout,
       }}
     >
       {children}
