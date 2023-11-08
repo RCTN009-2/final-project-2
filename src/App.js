@@ -5,21 +5,45 @@ import ProductDetails from "./pages/ProductDetails";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Login from "./components/Login";
 
-function App() {
+// Layout dengan sidebar dan footer
+function DefaultLayout({ children }) {
   return (
-    <div className="overflow-hidden">
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-        </Routes>
-        <Sidebar />
-        <Footer />
-      </Router>
+    <div>
+      <Header />
+      <Sidebar />
+      {children}
+      <Footer />
     </div>
   );
 }
 
+function App() {
+  return (
+    <div className="App">
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <DefaultLayout>
+                <Home />
+              </DefaultLayout>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/product/:id"
+            element={
+              <DefaultLayout>
+                <ProductDetails />
+              </DefaultLayout>
+            }
+          />
+        </Routes>
+      </Router>
+    </div>
+  );
+}
 export default App;
