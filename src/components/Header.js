@@ -3,12 +3,20 @@ import { SideBarContext } from "../contexs/SidebarContext";
 import { BsCart } from "react-icons/bs";
 import { CartContext } from "../contexs/CartContext";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   // Header state
   const [isActive, setIsActive] = useState(false);
   const { isOpen, setIsOpen } = useContext(SideBarContext);
   const { itemAmount } = useContext(CartContext);
+  // const loggedIn = localStorage.getItem('token') === 'tokencustomer'
+
+  const navigate = useNavigate ()
+  const handleLogout = () =>{
+    localStorage.removeItem ('token')
+    navigate('/')
+  }
 
   // Event listener
   useEffect(() => {
@@ -38,10 +46,13 @@ const Header = () => {
               {itemAmount}
             </div>
           </div>
-
-          <Link to={"/login"}>
-            <div className="mr-0">Login</div>
-          </Link>
+          {localStorage.getItem("token") === "tokencustomer" ? (
+              <div onClick={handleLogout} className="mr-0">Logout</div>
+          ) : (
+            <Link to={"/login"}>
+              <div className="mr-0">Login</div>
+            </Link>
+          )}
         </div>
       </div>
     </header>
