@@ -7,12 +7,59 @@ import SidebarAdmin from "../components/SidebarAdmin";
 
 const RekapPenjualan = () => {
   const [open, setOpen] = useState(true);
+  const ordersLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
+
+  const [orders, setOrders] = useState(ordersLocalStorage);
+
   const Menus = [
     { title: "Dashboard", icon: <MdSpaceDashboard /> },
     { title: "Update Stock", icon: <MdOutlineInventory /> },
     { title: "Rekap Penjualan", icon: <BsBarChartFill /> },
     { title: "Logout", icon: <MdLogout />, gap: true },
   ];
+
+  function calculateTotal(items) {
+    const result = [];
+
+    // Membuat objek untuk menyimpan jumlah dan total
+    const totals = {};
+
+    // Iterasi melalui setiap transaksi
+    items.forEach((transaction) => {
+      // Iterasi melalui setiap item dalam transaksi
+      transaction.items.forEach((item) => {
+        const { id, title, price, amount } = item;
+
+        // Menambahkan total untuk item ke objek totals
+        if (!totals[id]) {
+          totals[id] = {
+            price,
+            title: title,
+            amount: 0,
+            total: 0,
+          };
+        }
+
+        totals[id].amount += amount;
+        totals[id].total += price * amount;
+      });
+    });
+
+    // Mengonversi objek totals ke dalam bentuk array
+    for (const id in totals) {
+      const { title, amount, total, price } = totals[id];
+      result.push({ title, amount, total, price });
+    }
+
+    return result;
+  }
+
+  // Contoh penggunaan dengan array yang telah diberikan
+  const transactions = [
+    // ... (array transactions seperti yang diberikan)
+  ];
+
+  const filteredItems = calculateTotal(orders);
 
   return (
     <div className="flex bg-gray-100">
@@ -96,20 +143,22 @@ const RekapPenjualan = () => {
                     </thead>
 
                     <tbody>
-                      <tr>
-                        <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          Baju
-                        </th>
-                        <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          -
-                        </th>
-                        <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          -
-                        </th>
-                        <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          -
-                        </th>
-                      </tr>
+                      {filteredItems.map((item) => (
+                        <tr>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            {item.title}
+                          </th>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            {item.price}
+                          </th>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            {item.amount}
+                          </th>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            {item.total}
+                          </th>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>

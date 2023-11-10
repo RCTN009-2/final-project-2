@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import UpdateStok from "./pages/updateStok";
 import RekapPenjualan from "./pages/rekapPenjualan";
 import Dashboard from "./pages/Dashboard";
+import { useEffect } from "react";
 
 // Layout dengan sidebar dan footer
 function DefaultLayout({ children }) {
@@ -23,6 +24,14 @@ function DefaultLayout({ children }) {
 }
 
 function App() {
+  const cart = localStorage.getItem("cart");
+  const orders = localStorage.getItem("orders");
+
+  useEffect(() => {
+    if (!cart) localStorage.setItem("cart", JSON.stringify([]));
+    if (!orders) localStorage.setItem("orders", JSON.stringify([]));
+  }, []);
+
   return (
     <div className="App">
       <Router>
@@ -36,9 +45,9 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard/>}/>
-          <Route path="/updateStok" element={<UpdateStok/>} />
-          <Route path="/rekapPenjualan" element={<RekapPenjualan/>} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/updateStok" element={<UpdateStok />} />
+          <Route path="/rekapPenjualan" element={<RekapPenjualan />} />
           <Route
             path="/product/:id"
             element={

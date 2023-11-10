@@ -11,12 +11,15 @@ const Header = () => {
   const { isOpen, setIsOpen } = useContext(SideBarContext);
   const { itemAmount } = useContext(CartContext);
   // const loggedIn = localStorage.getItem('token') === 'tokencustomer'
+  const {clearCart} = useContext(CartContext)
 
   const navigate = useNavigate ()
   const handleLogout = () =>{
     localStorage.removeItem ('token')
     navigate('/')
+    clearCart()
   }
+
 
   // Event listener
   useEffect(() => {

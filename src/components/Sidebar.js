@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 //import icons
 import { IoMdArrowForward } from "react-icons/io";
@@ -11,6 +11,34 @@ import { FiTrash2 } from "react-icons/fi";
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SideBarContext);
   const { cart, clearCart, total, itemAmount } = useContext(CartContext);
+
+  const ordersLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
+
+  const [orders, setOrders] = useState(ordersLocalStorage);
+
+  useEffect(() => {
+    localStorage.setItem("orders", JSON.stringify(orders));
+  }, [orders]);
+
+  const checkOut = () => {
+    try {
+      const newOrder = {
+        date: new Date(Date.now()).toISOString(),
+        items: cart,
+      };
+
+      const newOrders =
+        orders.length === 0 ? [newOrder] : [...orders, newOrder];
+
+      setOrders(newOrders);
+
+      clearCart();
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
       className={`${
@@ -29,9 +57,11 @@ const Sidebar = () => {
         </div>
       </div>
       <div className=" flex flex-col gap-y-2 h-[320px] lg:h-350px] overflow-y-auto overflow-x-hidden border-b">
-        {cart.map((item) => {
-          return <CartItem item={item} key={item.id} />;
-        })}
+        {cart &&
+          cart.length > 0 &&
+          cart.map((item) => {
+            return <CartItem item={item} key={item.id} />;
+          })}
       </div>
 
       <div className=" flex flex-col gap-y-3 py-4 mt-4">
@@ -52,6 +82,7 @@ const Sidebar = () => {
 
         <Link
           to={"/"}
+          onClick={checkOut}
           className="bg-primary flex p-4 justify-center items-center text-white w-full font-medium"
         >
           Checkout
