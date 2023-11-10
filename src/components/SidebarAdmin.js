@@ -3,14 +3,15 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLogout, MdSpaceDashboard, MdOutlineInventory } from "react-icons/md";
 import { BsBarChartFill } from "react-icons/bs";
 import { RiAdminFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const SidebarAdmin = () => {
   const [open, setOpen] = useState(true);
   const Menus = [
-    { title: "Dashboard", icon: <MdSpaceDashboard /> },
-    { title: "Update Stock", icon: <MdOutlineInventory /> },
-    { title: "Rekap Penjualan", icon: <BsBarChartFill /> },
-    { title: "Logout", icon: <MdLogout />, gap: true },
+    { title: "Dashboard", icon: <MdSpaceDashboard />, path: "/dashboard" },
+    { title: "Update Stock", icon: <MdOutlineInventory />, path: "/updateStok" },
+    { title: "Rekap Penjualan", icon: <BsBarChartFill />, path: "/rekapPenjualan" },
+    { title: "Logout", icon: <MdLogout />, gap: true, path: "/" },
   ];
 
   return (
@@ -52,10 +53,14 @@ const SidebarAdmin = () => {
               className={`flex rounded-md p-2 cursor-pointer hover:bg-orange-300 hover:text-white hover:shadow-md text-black text-sm justify-center gap-x-4 items-center 
               ${Menu.gap ? "mt-96" : "mt-10"} ${index === 0 && ""} `}
             >
-              {Menu.icon}
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
-                {Menu.title}
-              </span>
+              <Link to={Menu.path} className="flex gap-4 justify-center">
+                <span className="text-xl">
+                {Menu.icon}
+                </span>
+                <span className={`${!open && "hidden"} origin-left duration-200`}>
+                  {Menu.title}
+                </span>
+              </Link>
             </li>
           ))}
         </ul>

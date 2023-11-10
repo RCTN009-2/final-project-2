@@ -3,6 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLogout, MdSpaceDashboard, MdOutlineInventory } from "react-icons/md";
 import { BsBarChartFill } from "react-icons/bs";
 import { RiAdminFill } from "react-icons/ri";
+import SidebarAdmin from "../components/SidebarAdmin";
 
 const RekapPenjualan = () => {
   const [open, setOpen] = useState(true);
@@ -15,7 +16,7 @@ const RekapPenjualan = () => {
 
   return (
     <div className="flex bg-gray-100">
-      <div
+      {/* <div
         className={`${
           open ? "w-72" : "w-20 "
         } bg-white h-screen p-5 pt-4 relative duration-300 shadow-xl`}
@@ -57,7 +58,8 @@ const RekapPenjualan = () => {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
+      <SidebarAdmin />
       <div className=" md:ml-28 ml-8 md:w-full w-3/4 mr-28">
         <div>
           <section class="py-1 bg-blueGray-50">
