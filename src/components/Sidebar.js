@@ -80,13 +80,12 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <Link
-          to={"/"}
+        <button
           onClick={checkOut}
-          className="bg-primary flex p-4 justify-center items-center text-white w-full font-medium"
+          className="bg-primary text-white p-4 rounded-md"
         >
           Checkout
-        </Link>
+        </button>
       </div>
     </div>
   );

@@ -7,12 +7,12 @@ import { CartContext } from "../contexs/CartContext";
 const Product = ({ product }) => {
   const { addToCart, cart } = useContext(CartContext);
   //destructure product
-  const { id, image, category, title, price } = product;
   const navigate = useNavigate();
 
   const tempCheckOut = () => {
     addToCart(product, id);
   };
+  const { id, image, category, title, price, stock } = product;
 
   return (
     <div>
@@ -56,6 +56,10 @@ const Product = ({ product }) => {
           <h2 className="font-semibold mb-1">{title}</h2>
         </Link>
         <div className="font-semibold">$ {price}</div>
+        <div className="text-sm font-normal mb-6 custom-stock-info">
+          {" "}
+          Stock: {stock} unit
+        </div>
       </div>
     </div>
   );
