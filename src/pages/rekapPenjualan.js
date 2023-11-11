@@ -65,7 +65,7 @@ const RekapPenjualan = () => {
   const { result: filteredItems, totalPenghasilan } = calculateTotal(orders);
 
   return (
-    <div className="flex bg-gray-100">
+    <div className="flex bg-gray-100 overflow-y-hidden">
       {/* <div
         className={`${
           open ? "w-72" : "w-20 "
@@ -127,6 +127,7 @@ const RekapPenjualan = () => {
                 </div>
 
                 <div class="block w-full overflow-x-auto">
+                <div className="max-h-[600px] overflow-y-auto">
                   <table class="items-center bg-transparent w-full border-collapse ">
                     <thead>
                       <tr>
@@ -172,13 +173,24 @@ const RekapPenjualan = () => {
                           </th>
                         </tr>
                       ))}
-                      <tr>
-                        <td className="text-right" colSpan={5}>
-                          Total Pendapatan {totalPenghasilan}
+                      <tr className="border-double border-t-4 border-gray-400 py-6">
+                        <td className="" >
+                          {/* Total Pendapatan {totalPenghasilan} */}
+                        </td>
+                        <td className="" >
+                          {/* Total Pendapatan {totalPenghasilan} */}
+                        </td>
+                        <td className="text-md" colSpan={2} >
+                          <b>Total Pendapatan </b>
+                        </td>
+                        <td className="text-md " colSpan={2}>
+                          <b>{totalPenghasilan}</b>
                         </td>
                       </tr>
                     </tbody>
                   </table>
+
+                </div>
                 </div>
               </div>
             </div>

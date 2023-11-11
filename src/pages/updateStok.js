@@ -22,7 +22,7 @@ const UpdateStok = () => {
   ];
 
   return (
-    <div className="flex bg-gray-100">
+    <div className="flex bg-gray-100 overflow-y-hidden">
       {/* <div
         className={`${
           open ? "w-72" : "w-20 "
@@ -67,7 +67,7 @@ const UpdateStok = () => {
         </ul>
       </div> */}
       <SidebarAdmin />
-      <div className=" md:ml-28 ml-8 md:w-full w-3/4 mr-28">
+      <div className=" md:ml- ml-8 md:w-full w-3/4 mr-8">
         <div>
           <section class="py-1 bg-blueGray-50">
             <div class=" xl:w-full mb-12 xl:mb-0 px-4 mx-auto mt-24">
@@ -83,10 +83,14 @@ const UpdateStok = () => {
                   </div>
                 </div>
 
-                <div class="block w-full overflow-x-auto">
+                <div class="block w-full ">
+                  <div className="max-h-[600px] overflow-y-auto">
                   <table class="items-center bg-transparent w-full border-collapse ">
                     <thead>
                       <tr>
+                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Image
+                        </th>
                         <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Products
                         </th>
@@ -102,6 +106,13 @@ const UpdateStok = () => {
                     <tbody>
                       {products.map((item) => (
                         <tr>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            <img
+                              className="max-h-[100px] group-hover:scale-110 transition duraion-300"
+                              src={item.image}
+                              alt=""
+                            />
+                          </th>
                           <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
                             {item.title}
                           </th>
@@ -120,7 +131,7 @@ const UpdateStok = () => {
                               }
                             ></input>
                             <button
-                              class="bg-orange-300 text-white font-bold py-2 px-4 rounded-lg"
+                              class="bg-orange-300 text-white font-bold py-2 px-4 rounded-lg ml-4"
                               onClick={() =>
                                 updateStok(
                                   item.id,
@@ -143,6 +154,7 @@ const UpdateStok = () => {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
             </div>
