@@ -33,31 +33,6 @@ const CartProvider = ({ children }) => {
     }
   }, [cart]);
 
-  const checkout = () => {
-    // Lakukan validasi stok dan kurangi stok
-    const updatedProducts = products.map((product) => {
-      const cartItem = cart.find((item) => item.id === product.id);
-
-      if (cartItem && cartItem.amount <= product.stock) {
-        // Kurangi stok sesuai dengan jumlah pembelian
-        product.stock -= cartItem.amount;
-      } else {
-        console.error(`Stok tidak mencukupi untuk ${product.title}`);
-      }
-
-      // Pastikan stok tidak menjadi negatif
-      product.stock = Math.max(product.stock, 0);
-
-      return product;
-    });
-
-    // Perbarui stok di ProductContext
-    setProducts(updatedProducts);
-
-    // Kosongkan keranjang setelah checkout
-    clearCart();
-  };
-
   //add to cart
   const addToCart = (product, id) => {
     const newItem = { ...product, amount: 1 };
@@ -194,7 +169,6 @@ const CartProvider = ({ children }) => {
         decreaseAmount,
         itemAmount,
         total,
-        checkout,
       }}
     >
       {children}

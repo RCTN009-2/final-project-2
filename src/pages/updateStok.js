@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLogout, MdSpaceDashboard, MdOutlineInventory } from "react-icons/md";
 import { BsBarChartFill } from "react-icons/bs";
 import { RiAdminFill } from "react-icons/ri";
 import SidebarAdmin from "../components/SidebarAdmin";
+import { ProductContext } from "../contexs/ProductContext";
 
 const UpdateStok = () => {
   const [open, setOpen] = useState(true);
+
+  const [stok, setStok] = useState(0);
+
+  const { products, setProducts, updateStok } = useContext(ProductContext);
+
   const Menus = [
     { title: "Dashboard", icon: <MdSpaceDashboard /> },
     { title: "Update Stock", icon: <MdOutlineInventory /> },
@@ -86,30 +92,39 @@ const UpdateStok = () => {
                         <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Stock
                         </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                        {/* <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Action
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
 
                     <tbody>
-                      <tr>
-                        <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          Baju
-                        </th>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                          <input
-                            class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="username"
-                            type="number"
-                          ></input>
-                        </td>
-                        <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          <button class="bg-orange-300 text-white font-bold py-2 px-4 rounded-lg">
-                            Update
-                          </button>
-                        </td>
-                      </tr>
+                      {products.map((item) => (
+                        <tr>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            {item.title}
+                          </th>
+                          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                            <input
+                              class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                              id="username"
+                              type="number"
+                              value={item.stock}
+                              onChange={(e) =>
+                                updateStok(item.id, e.target.value)
+                              }
+                            ></input>
+                          </td>
+                          {/* <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            <button
+                              class="bg-orange-300 text-white font-bold py-2 px-4 rounded-lg"
+                              // onClick={() => UpdateStok(item.id, stok)}
+                            >
+                              Update
+                            </button>
+                          </td> */}
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -118,7 +133,6 @@ const UpdateStok = () => {
           </section>
         </div>
       </div>
-      
     </div>
   );
 };

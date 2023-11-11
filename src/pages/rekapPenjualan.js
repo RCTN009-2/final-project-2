@@ -28,7 +28,7 @@ const RekapPenjualan = () => {
     items.forEach((transaction) => {
       // Iterasi melalui setiap item dalam transaksi
       transaction.items.forEach((item) => {
-        const { id, title, price, amount } = item;
+        const { id, title, price, amount, image } = item;
 
         // Menambahkan total untuk item ke objek totals
         if (!totals[id]) {
@@ -37,6 +37,7 @@ const RekapPenjualan = () => {
             title: title,
             amount: 0,
             total: 0,
+            image,
           };
         }
 
@@ -47,8 +48,8 @@ const RekapPenjualan = () => {
 
     // Mengonversi objek totals ke dalam bentuk array
     for (const id in totals) {
-      const { title, amount, total, price } = totals[id];
-      result.push({ title, amount, total, price });
+      const { title, amount, total, price, image } = totals[id];
+      result.push({ title, amount, total, price, image });
     }
 
     return result;
@@ -128,6 +129,9 @@ const RekapPenjualan = () => {
                     <thead>
                       <tr>
                         <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Image
+                        </th>
+                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Products
                         </th>
                         <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
@@ -145,6 +149,13 @@ const RekapPenjualan = () => {
                     <tbody>
                       {filteredItems.map((item) => (
                         <tr>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            <img
+                              className="max-h-[100px] group-hover:scale-110 transition duraion-300"
+                              src={item.image}
+                              alt=""
+                            />
+                          </th>
                           <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
                             {item.title}
                           </th>

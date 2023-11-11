@@ -7,10 +7,12 @@ import CartItem from "../components/CartItem";
 import { SideBarContext } from "../contexs/SidebarContext";
 import { CartContext } from "../contexs/CartContext";
 import { FiTrash2 } from "react-icons/fi";
+import { ProductContext } from "../contexs/ProductContext";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SideBarContext);
   const { cart, clearCart, total, itemAmount } = useContext(CartContext);
+  const { products, updateStok } = useContext(ProductContext);
 
   const ordersLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
 
@@ -26,6 +28,21 @@ const Sidebar = () => {
         date: new Date(Date.now()).toISOString(),
         items: cart,
       };
+
+      const filteredProduct = products.map((product) => {
+        return cart.filter((item) => item.id === product.id);
+      });
+
+      filteredProduct.map((product) => {
+        const filtered = (id) => products.find((product) => product.id === id);
+
+        console.log(filtered(product.length > 0 && product[0].id));
+
+        return (
+          product.length > 0 &&
+          updateStok(product[0].id, product[0].stock - product[0].amount)
+        );
+      });
 
       const newOrders =
         orders.length === 0 ? [newOrder] : [...orders, newOrder];

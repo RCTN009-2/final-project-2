@@ -9,7 +9,7 @@ import Login from "./components/Login";
 import UpdateStok from "./pages/updateStok";
 import RekapPenjualan from "./pages/rekapPenjualan";
 import Dashboard from "./pages/Dashboard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Layout dengan sidebar dan footer
 function DefaultLayout({ children }) {
@@ -27,9 +27,40 @@ function App() {
   const cart = localStorage.getItem("cart");
   const orders = localStorage.getItem("orders");
 
+  const productsLocalStorage = JSON.parse(
+    localStorage.getItem("products") || "[]"
+  );
+  const [products, setProducts] = useState(productsLocalStorage);
+
+  useEffect(() => {
+    localStorage.setItem("products", JSON.stringify(products));
+  }, [products]);
+
   useEffect(() => {
     if (!cart) localStorage.setItem("cart", JSON.stringify([]));
     if (!orders) localStorage.setItem("orders", JSON.stringify([]));
+    if (!products) localStorage.setItem("products", JSON.stringify([]));
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("https://fakestoreapi.com/products");
+        const data = await response.json();
+
+        // Tambahkan properti 'stock' pada setiap produk
+        const productsWithStock = data.map((product) => ({
+          ...product,
+          stock: 0, // Misalnya, setiap produk memiliki stok awal 20
+        }));
+
+        setProducts(productsWithStock);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    if (!products) fetchProducts();
   }, []);
 
   return (
