@@ -23,7 +23,7 @@ const ProductDetails = () => {
   }
 
   //destructure product
-  const { title, price, description, image } = product;
+  const { title, price, description, image, stock } = product;
 
   return (
     <section className="pt-32 pb-12 lg:py-32h-screen flex items-center">
@@ -43,6 +43,9 @@ const ProductDetails = () => {
               $ {price}
             </div>
             <p className="mb-8">{description}</p>
+            <div className="text-s font-medium mb-6">
+              Stock: {stock} {stock > 1 ? "items" : "item"}
+            </div>
             <button
               onClick={() => addToCart(product, product.id)}
               className="bg-primary py-4 px-8 text-white"

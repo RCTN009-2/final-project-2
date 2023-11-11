@@ -7,12 +7,62 @@ import SidebarAdmin from "../components/SidebarAdmin";
 
 const RekapPenjualan = () => {
   const [open, setOpen] = useState(true);
+  const ordersLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
+
+  const [orders, setOrders] = useState(ordersLocalStorage);
+
   const Menus = [
     { title: "Dashboard", icon: <MdSpaceDashboard /> },
     { title: "Update Stock", icon: <MdOutlineInventory /> },
     { title: "Rekap Penjualan", icon: <BsBarChartFill /> },
     { title: "Logout", icon: <MdLogout />, gap: true },
   ];
+
+  function calculateTotal(items) {
+    let totalPenghasilan = 0;
+    const result = [];
+
+    // Membuat objek untuk menyimpan jumlah dan total
+    const totals = {};
+
+    // Iterasi melalui setiap transaksi
+    items.forEach((transaction) => {
+      // Iterasi melalui setiap item dalam transaksi
+      transaction.items.forEach((item) => {
+        const { id, title, price, amount, image } = item;
+
+        // Menambahkan total untuk item ke objek totals
+        if (!totals[id]) {
+          totals[id] = {
+            price,
+            title: title,
+            amount: 0,
+            total: 0,
+            image,
+          };
+        }
+
+        totals[id].amount += amount;
+        totals[id].total += price * amount;
+        totalPenghasilan += totals[id].total;
+      });
+    });
+
+    // Mengonversi objek totals ke dalam bentuk array
+    for (const id in totals) {
+      const { title, amount, total, price, image } = totals[id];
+      result.push({ title, amount, total, price, image });
+    }
+
+    return { result, totalPenghasilan };
+  }
+
+  // Contoh penggunaan dengan array yang telah diberikan
+  const transactions = [
+    // ... (array transactions seperti yang diberikan)
+  ];
+
+  const { result: filteredItems, totalPenghasilan } = calculateTotal(orders);
 
   return (
     <div className="flex bg-gray-100">
@@ -81,6 +131,9 @@ const RekapPenjualan = () => {
                     <thead>
                       <tr>
                         <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Image
+                        </th>
+                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Products
                         </th>
                         <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
@@ -96,19 +149,33 @@ const RekapPenjualan = () => {
                     </thead>
 
                     <tbody>
+                      {filteredItems.map((item) => (
+                        <tr>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            <img
+                              className="max-h-[100px] group-hover:scale-110 transition duraion-300"
+                              src={item.image}
+                              alt=""
+                            />
+                          </th>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            {item.title}
+                          </th>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            {item.price}
+                          </th>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            {item.amount}
+                          </th>
+                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                            {item.total}
+                          </th>
+                        </tr>
+                      ))}
                       <tr>
-                        <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          Baju
-                        </th>
-                        <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          -
-                        </th>
-                        <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          -
-                        </th>
-                        <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          -
-                        </th>
+                        <td className="text-right" colSpan={5}>
+                          Total Pendapatan {totalPenghasilan}
+                        </td>
                       </tr>
                     </tbody>
                   </table>

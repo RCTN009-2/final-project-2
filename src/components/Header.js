@@ -11,12 +11,14 @@ const Header = () => {
   const { isOpen, setIsOpen } = useContext(SideBarContext);
   const { itemAmount } = useContext(CartContext);
   // const loggedIn = localStorage.getItem('token') === 'tokencustomer'
+  const { clearCart } = useContext(CartContext);
 
-  const navigate = useNavigate ()
-  const handleLogout = () =>{
-    localStorage.removeItem ('token')
-    navigate('/')
-  }
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+    clearCart();
+  };
 
   // Event listener
   useEffect(() => {
@@ -47,7 +49,9 @@ const Header = () => {
             </div>
           </div>
           {localStorage.getItem("token") === "tokencustomer" ? (
-              <div onClick={handleLogout} className="mr-0">Logout</div>
+            <div onClick={handleLogout} className="mr-0 cursor-pointer">
+              Logout
+            </div>
           ) : (
             <Link to={"/login"}>
               <div className="mr-0">Login</div>

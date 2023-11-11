@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 //import icons
 import { IoMdArrowForward } from "react-icons/io";
@@ -7,10 +7,70 @@ import CartItem from "../components/CartItem";
 import { SideBarContext } from "../contexs/SidebarContext";
 import { CartContext } from "../contexs/CartContext";
 import { FiTrash2 } from "react-icons/fi";
+import { ProductContext } from "../contexs/ProductContext";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SideBarContext);
-  const { cart, clearCart, total, itemAmount } = useContext(CartContext);
+  const { cart, clearCart, clearCartCheckout, total, itemAmount } = useContext(CartContext);
+  const { products, updateStok } = useContext(ProductContext);
+
+  const ordersLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
+
+  const [orders, setOrders] = useState(ordersLocalStorage);
+
+  useEffect(() => {
+    localStorage.setItem("orders", JSON.stringify(orders));
+  }, [orders]);
+
+  const checkOut = () => {
+    try {
+      const newOrder = {
+        date: new Date(Date.now()).toISOString(),
+        items: cart,
+      };
+
+      const filteredProduct = products.map((product) => {
+        return cart.filter((item) => item.id === product.id);
+      });
+
+      filteredProduct.map((product) => {
+        const filtered = (id) => products.find((product) => product.id === id);
+        const filteredCart = (id) => cart.find((product) => product.id === id);
+
+        if (product.length > 0) {
+          console.log(
+            "filteredCart amount",
+            filteredCart(product[0].id).amount
+          );
+          console.log("id", product[0].id);
+          console.log("product stok", product[0].stock);
+          console.log(
+            "stok seharusnya sekarang",
+            product[0].stock - filteredCart(product[0].id).amount
+          );
+
+          updateStok(
+            product[0].id,
+            product[0].stock - filteredCart(product[0].id).amount
+          );
+        }
+
+        // return (
+        // );
+      });
+
+      const newOrders =
+        orders.length === 0 ? [newOrder] : [...orders, newOrder];
+
+      setOrders(newOrders);
+
+      clearCartCheckout();
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
       className={`${
@@ -29,9 +89,11 @@ const Sidebar = () => {
         </div>
       </div>
       <div className=" flex flex-col gap-y-2 h-[320px] lg:h-350px] overflow-y-auto overflow-x-hidden border-b">
-        {cart.map((item) => {
-          return <CartItem item={item} key={item.id} />;
-        })}
+        {cart &&
+          cart.length > 0 &&
+          cart.map((item) => {
+            return <CartItem item={item} key={item.id} />;
+          })}
       </div>
 
       <div className=" flex flex-col gap-y-3 py-4 mt-4">
@@ -50,12 +112,12 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <Link
-          to={"/"}
-          className="bg-primary flex p-4 justify-center items-center text-white w-full font-medium"
+        <button
+          onClick={checkOut}
+          className="bg-primary text-white p-4 rounded-md"
         >
           Checkout
-        </Link>
+        </button>
       </div>
     </div>
   );
