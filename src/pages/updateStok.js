@@ -9,6 +9,7 @@ import { ProductContext } from "../contexs/ProductContext";
 const UpdateStok = () => {
   const [open, setOpen] = useState(true);
 
+  const [inputValues, setInputValues] = useState({});
   const [stok, setStok] = useState(0);
 
   const { products, setProducts, updateStok } = useContext(ProductContext);
@@ -108,12 +109,27 @@ const UpdateStok = () => {
                             <input
                               class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                               id="username"
-                              type="number"
-                              value={item.stock}
+                              type="text"
+                              defaultValue={inputValues[item.id] || item.stock}
+                              value={inputValues[item.id]}
                               onChange={(e) =>
-                                updateStok(item.id, e.target.value)
+                                setInputValues({
+                                  ...inputValues,
+                                  [item.id]: e.target.value,
+                                })
                               }
                             ></input>
+                            <button
+                              class="bg-orange-300 text-white font-bold py-2 px-4 rounded-lg"
+                              onClick={() =>
+                                updateStok(
+                                  item.id,
+                                  inputValues[item.id] || item.stock
+                                )
+                              }
+                            >
+                              Update
+                            </button>
                           </td>
                           {/* <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                             <button

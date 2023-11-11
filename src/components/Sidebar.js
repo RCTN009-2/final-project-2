@@ -11,7 +11,7 @@ import { ProductContext } from "../contexs/ProductContext";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SideBarContext);
-  const { cart, clearCart, total, itemAmount } = useContext(CartContext);
+  const { cart, clearCart, clearCartCheckout, total, itemAmount } = useContext(CartContext);
   const { products, updateStok } = useContext(ProductContext);
 
   const ordersLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
@@ -35,13 +35,28 @@ const Sidebar = () => {
 
       filteredProduct.map((product) => {
         const filtered = (id) => products.find((product) => product.id === id);
+        const filteredCart = (id) => cart.find((product) => product.id === id);
 
-        console.log(filtered(product.length > 0 && product[0].id));
+        if (product.length > 0) {
+          console.log(
+            "filteredCart amount",
+            filteredCart(product[0].id).amount
+          );
+          console.log("id", product[0].id);
+          console.log("product stok", product[0].stock);
+          console.log(
+            "stok seharusnya sekarang",
+            product[0].stock - filteredCart(product[0].id).amount
+          );
 
-        return (
-          product.length > 0 &&
-          updateStok(product[0].id, product[0].stock - product[0].amount)
-        );
+          updateStok(
+            product[0].id,
+            product[0].stock - filteredCart(product[0].id).amount
+          );
+        }
+
+        // return (
+        // );
       });
 
       const newOrders =
@@ -49,7 +64,7 @@ const Sidebar = () => {
 
       setOrders(newOrders);
 
-      clearCart();
+      clearCartCheckout();
       handleClose();
     } catch (error) {
       console.error(error);

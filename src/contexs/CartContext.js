@@ -158,12 +158,17 @@ const CartProvider = ({ children }) => {
     setCart([]);
   };
 
+  const clearCartCheckout = () => {
+    setCart([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
         cart,
         addToCart,
         clearCart,
+        clearCartCheckout,
         removeFromCart,
         increaseAmount,
         decreaseAmount,

@@ -19,6 +19,7 @@ const RekapPenjualan = () => {
   ];
 
   function calculateTotal(items) {
+    let totalPenghasilan = 0;
     const result = [];
 
     // Membuat objek untuk menyimpan jumlah dan total
@@ -43,6 +44,7 @@ const RekapPenjualan = () => {
 
         totals[id].amount += amount;
         totals[id].total += price * amount;
+        totalPenghasilan += totals[id].total;
       });
     });
 
@@ -52,7 +54,7 @@ const RekapPenjualan = () => {
       result.push({ title, amount, total, price, image });
     }
 
-    return result;
+    return { result, totalPenghasilan };
   }
 
   // Contoh penggunaan dengan array yang telah diberikan
@@ -60,7 +62,7 @@ const RekapPenjualan = () => {
     // ... (array transactions seperti yang diberikan)
   ];
 
-  const filteredItems = calculateTotal(orders);
+  const { result: filteredItems, totalPenghasilan } = calculateTotal(orders);
 
   return (
     <div className="flex bg-gray-100">
@@ -170,6 +172,11 @@ const RekapPenjualan = () => {
                           </th>
                         </tr>
                       ))}
+                      <tr>
+                        <td className="text-right" colSpan={5}>
+                          Total Pendapatan {totalPenghasilan}
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
