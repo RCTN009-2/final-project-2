@@ -127,70 +127,69 @@ const RekapPenjualan = () => {
                 </div>
 
                 <div class="block w-full overflow-x-auto">
-                <div className="max-h-[600px] overflow-y-auto">
-                  <table class="items-center bg-transparent w-full border-collapse ">
-                    <thead>
-                      <tr>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Image
-                        </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Products
-                        </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Harga
-                        </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Terjual
-                        </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Pendapatan
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {filteredItems.map((item) => (
+                  <div className="max-h-[600px] overflow-y-auto">
+                    <table class="items-center bg-transparent w-full border-collapse ">
+                      <thead>
                         <tr>
-                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                            <img
-                              className="max-h-[100px] group-hover:scale-110 transition duraion-300"
-                              src={item.image}
-                              alt=""
-                            />
+                          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Image
                           </th>
-                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                            {item.title}
+                          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Products
                           </th>
-                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                            {item.price}
+                          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Harga
                           </th>
-                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                            {item.amount}
+                          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Terjual
                           </th>
-                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                            {item.total}
+                          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Pendapatan
                           </th>
                         </tr>
-                      ))}
-                      <tr className="border-double border-t-4 border-gray-400 py-6">
-                        <td className="" >
-                          {/* Total Pendapatan {totalPenghasilan} */}
-                        </td>
-                        <td className="" >
-                          {/* Total Pendapatan {totalPenghasilan} */}
-                        </td>
-                        <td className="text-md" colSpan={2} >
-                          <b>Total Pendapatan </b>
-                        </td>
-                        <td className="text-md " colSpan={2}>
-                          <b>{totalPenghasilan}</b>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      </thead>
 
-                </div>
+                      <tbody>
+                        {filteredItems.map((item) => (
+                          <tr>
+                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                              <img
+                                className="max-h-[100px] group-hover:scale-110 transition duraion-300"
+                                src={item.image}
+                                alt=""
+                              />
+                            </th>
+                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                              {item.title}
+                            </th>
+                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                              {item.price}
+                            </th>
+                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                              {item.amount}
+                            </th>
+                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                              {item.total}
+                            </th>
+                          </tr>
+                        ))}
+                        <tr className="border-double border-t-4 border-gray-400 py-6">
+                          <td className="">
+                            {/* Total Pendapatan {totalPenghasilan} */}
+                          </td>
+                          <td className="">
+                            {/* Total Pendapatan {totalPenghasilan} */}
+                          </td>
+                          <td className="text-md" colSpan={2}>
+                            <b>Total Pendapatan </b>
+                          </td>
+                          <td className="text-md " colSpan={2}>
+                            <b>{parseFloat(totalPenghasilan).toFixed(2)}</b>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>

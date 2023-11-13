@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-//import icons
 import { IoMdArrowForward } from "react-icons/io";
 //import components
 import CartItem from "../components/CartItem";
@@ -11,7 +9,8 @@ import { ProductContext } from "../contexs/ProductContext";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SideBarContext);
-  const { cart, clearCart, clearCartCheckout, total, itemAmount } = useContext(CartContext);
+  const { cart, clearCart, clearCartCheckout, total, itemAmount } =
+    useContext(CartContext);
   const { products, updateStok } = useContext(ProductContext);
 
   const ordersLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
