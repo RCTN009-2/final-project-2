@@ -15,7 +15,7 @@ const CartProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
-  const { products, setProducts } = useContext(ProductContext);
+  const { setProducts } = useContext(ProductContext);
 
   useEffect(() => {
     const total = cart.reduce((accumulator, currentItem) => {

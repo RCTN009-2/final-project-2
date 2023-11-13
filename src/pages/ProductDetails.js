@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 //import use params
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../contexs/ProductContext";
 import { CartContext } from "../contexs/CartContext";
 
@@ -10,6 +10,11 @@ const ProductDetails = () => {
   const { products } = useContext(ProductContext);
   const { addToCart } = useContext(CartContext);
 
+  const navigate = useNavigate();
+
+  const tempCheckOut = () => {
+    addToCart(product, id);
+  };
   //get the single product based on the id
   const product = products.find((item) => {
     return item.id === parseInt(id);
@@ -47,7 +52,11 @@ const ProductDetails = () => {
               Stock: {stock} {stock > 1 ? "items" : "item"}
             </div>
             <button
-              onClick={() => addToCart(product, product.id)}
+              onClick={
+                localStorage.getItem("token") !== "tokencustomer"
+                  ? () => navigate("/login")
+                  : () => tempCheckOut()
+              }
               className="bg-primary py-4 px-8 text-white"
             >
               Add to Cart
