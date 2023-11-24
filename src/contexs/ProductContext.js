@@ -19,6 +19,7 @@ const ProductProvider = ({ children }) => {
           ...product,
           stock: 20, // Misalnya, setiap produk memiliki stok awal 20
         }));
+        console.log(productsWithStock);
         setProducts(productsWithStock);
       } catch (error) {
         console.error("Error fetching products:", error);

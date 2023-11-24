@@ -15,7 +15,7 @@ const CartProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
-  const { products, setProducts } = useContext(ProductContext);
+  const { setProducts } = useContext(ProductContext);
 
   useEffect(() => {
     const total = cart.reduce((accumulator, currentItem) => {
@@ -37,12 +37,9 @@ const CartProvider = ({ children }) => {
   const addToCart = (product, id) => {
     const newItem = { ...product, amount: 1 };
 
-    // check if item is already in the cart
     const cartItem = cart.find((item) => item.id === id);
 
-    // Check if stock is greater than 0 before adding to cart
     if (product.stock > 0) {
-      // if cart item is already in the cart
       if (cartItem) {
         const newCart = cart.map((item) => {
           if (item.id === id) {
@@ -52,27 +49,8 @@ const CartProvider = ({ children }) => {
           }
         });
         setCart(newCart);
-
-        // update stock when the item is added
-        setProducts((prevProducts) =>
-          prevProducts.map((product) =>
-            product.id === id
-              ? { ...product, stock: Math.max(product.stock - 1, 0) }
-              : product
-          )
-        );
       } else {
-        // Add the item to the cart
         setCart([...cart, newItem]);
-
-        // update stock when the item is added
-        setProducts((prevProducts) =>
-          prevProducts.map((product) =>
-            product.id === id
-              ? { ...product, stock: Math.max(product.stock - 1, 0) }
-              : product
-          )
-        );
       }
     } else {
       console.warn(`Stok untuk item ${product.title} tidak mencukupi`);

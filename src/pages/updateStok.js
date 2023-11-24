@@ -21,6 +21,12 @@ const UpdateStok = () => {
     { title: "Logout", icon: <MdLogout />, gap: true },
   ];
 
+  const filteredProducts = products.filter((item) => {
+    return (
+      item.category === "men's clothing" || item.category === "women's clothing"
+    );
+  });
+
   return (
     <div className="flex bg-gray-100 overflow-y-hidden">
       {/* <div
@@ -85,64 +91,66 @@ const UpdateStok = () => {
 
                 <div class="block w-full ">
                   <div className="max-h-[600px] overflow-y-auto">
-                  <table class="items-center bg-transparent w-full border-collapse ">
-                    <thead>
-                      <tr>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Image
-                        </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Products
-                        </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Stock
-                        </th>
-                        {/* <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    <table class="items-center bg-transparent w-full border-collapse ">
+                      <thead>
+                        <tr>
+                          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Image
+                          </th>
+                          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Products
+                          </th>
+                          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Stock
+                          </th>
+                          {/* <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs  border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Action
                         </th> */}
-                      </tr>
-                    </thead>
+                        </tr>
+                      </thead>
 
-                    <tbody>
-                      {products.map((item) => (
-                        <tr>
-                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                            <img
-                              className="max-h-[100px] group-hover:scale-110 transition duraion-300"
-                              src={item.image}
-                              alt=""
-                            />
-                          </th>
-                          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                            {item.title}
-                          </th>
-                          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                            <input
-                              class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                              id="username"
-                              type="text"
-                              defaultValue={inputValues[item.id] || item.stock}
-                              value={inputValues[item.id]}
-                              onChange={(e) =>
-                                setInputValues({
-                                  ...inputValues,
-                                  [item.id]: e.target.value,
-                                })
-                              }
-                            ></input>
-                            <button
-                              class="bg-orange-300 text-white font-bold py-2 px-4 rounded-lg ml-4"
-                              onClick={() =>
-                                updateStok(
-                                  item.id,
+                      <tbody>
+                        {filteredProducts.map((item) => (
+                          <tr>
+                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                              <img
+                                className="max-h-[100px] group-hover:scale-110 transition duraion-300"
+                                src={item.image}
+                                alt=""
+                              />
+                            </th>
+                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                              {item.title}
+                            </th>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                              <input
+                                class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="username"
+                                type="text"
+                                defaultValue={
                                   inputValues[item.id] || item.stock
-                                )
-                              }
-                            >
-                              Update
-                            </button>
-                          </td>
-                          {/* <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                }
+                                value={inputValues[item.id]}
+                                onChange={(e) =>
+                                  setInputValues({
+                                    ...inputValues,
+                                    [item.id]: e.target.value,
+                                  })
+                                }
+                              ></input>
+                              <button
+                                class="bg-orange-300 text-white font-bold py-2 px-4 rounded-lg ml-4"
+                                onClick={() =>
+                                  updateStok(
+                                    item.id,
+                                    inputValues[item.id] || item.stock
+                                  )
+                                }
+                              >
+                                Update
+                              </button>
+                            </td>
+                            {/* <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                             <button
                               class="bg-orange-300 text-white font-bold py-2 px-4 rounded-lg"
                               // onClick={() => UpdateStok(item.id, stok)}
@@ -150,10 +158,10 @@ const UpdateStok = () => {
                               Update
                             </button>
                           </td> */}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
