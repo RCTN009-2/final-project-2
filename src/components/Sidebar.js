@@ -23,45 +23,27 @@ const Sidebar = () => {
 
   const checkOut = () => {
     try {
+      cart.forEach((cartItem) => {
+        const productToUpdate = products.find(
+          (product) => product.id === cartItem.id
+        );
+
+        if (productToUpdate) {
+          const newStock = productToUpdate.stock - cartItem.amount;
+          updateStok(cartItem.id, newStock); // Update stock using updateStok from ProductContext
+        }
+      });
+
       const newOrder = {
         date: new Date(Date.now()).toISOString(),
         items: cart,
       };
 
-      const filteredProduct = products.map((product) => {
-        return cart.filter((item) => item.id === product.id);
-      });
-
-      filteredProduct.map((product) => {
-        const filtered = (id) => products.find((product) => product.id === id);
-        const filteredCart = (id) => cart.find((product) => product.id === id);
-
-        if (product.length > 0) {
-          console.log(
-            "filteredCart amount",
-            filteredCart(product[0].id).amount
-          );
-          console.log("id", product[0].id);
-          console.log("product stok", product[0].stock);
-          console.log(
-            "stok seharusnya sekarang",
-            product[0].stock - filteredCart(product[0].id).amount
-          );
-
-          updateStok(
-            product[0].id,
-            product[0].stock - filteredCart(product[0].id).amount
-          );
-        }
-
-        // return (
-        // );
-      });
-
       const newOrders =
         orders.length === 0 ? [newOrder] : [...orders, newOrder];
-
       setOrders(newOrders);
+
+      localStorage.setItem("orders", JSON.stringify(newOrders));
 
       clearCartCheckout();
       handleClose();
