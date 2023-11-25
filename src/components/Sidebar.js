@@ -11,7 +11,7 @@ const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SideBarContext);
   const { cart, clearCart, clearCartCheckout, total, itemAmount } =
     useContext(CartContext);
-  const { products, updateStok } = useContext(ProductContext);
+  const { products, updateStock } = useContext(ProductContext);
 
   const ordersLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
 
@@ -30,7 +30,7 @@ const Sidebar = () => {
 
         if (productToUpdate) {
           const newStock = productToUpdate.stock - cartItem.amount;
-          updateStok(cartItem.id, newStock); // Update stock using updateStok from ProductContext
+          updateStock(cartItem.id, newStock); // Update stock using updateStok from ProductContext
         }
       });
 
@@ -95,7 +95,6 @@ const Sidebar = () => {
         <button
           onClick={checkOut}
           className="bg-primary text-white p-4 rounded-md"
-
         >
           Checkout
         </button>

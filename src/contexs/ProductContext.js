@@ -33,19 +33,16 @@ const ProductProvider = ({ children }) => {
     localStorage.setItem("products", JSON.stringify(products));
   }, [products]);
 
-  const updateStok = (id, stok) => {
-    const productItem = products.find((item) => item.id === id);
-
-    if (productItem) {
-      const newProducts = products.map((item) =>
+  const updateStock = (id, stok) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((item) =>
         item.id === id ? { ...item, stock: stok } : item
-      );
-      setProducts(newProducts);
-    }
+      )
+    );
   };
 
   return (
-    <ProductContext.Provider value={{ products, setProducts, updateStok }}>
+    <ProductContext.Provider value={{ products, setProducts, updateStock }}>
       {children}
     </ProductContext.Provider>
   );
