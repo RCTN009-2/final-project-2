@@ -13,7 +13,7 @@ const ProductDetails = () => {
   const navigate = useNavigate();
 
   const tempCheckOut = () => {
-    addToCart(product, id);
+    addToCart(product, parseInt(id));
   };
   //get the single product based on the id
   const product = products.find((item) => {

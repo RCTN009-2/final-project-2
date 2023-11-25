@@ -15,7 +15,7 @@ const CartProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
-  const { setProducts } = useContext(ProductContext);
+  const { setProducts, updateStock } = useContext(ProductContext);
 
   useEffect(() => {
     const total = cart.reduce((accumulator, currentItem) => {
@@ -64,13 +64,7 @@ const CartProvider = ({ children }) => {
 
     if (removedItem) {
       // Update stock when the item is removed
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === id
-            ? { ...product, stock: product.stock + removedItem.amount }
-            : product
-        )
-      );
+      updateStock(id, removedItem.stock);
 
       // Remove the item from the cart
       const updatedCart = cart.filter((item) => item.id !== id);
@@ -90,7 +84,7 @@ const CartProvider = ({ children }) => {
     }
 
     // Update stock when the item amount is increased
-    setProducts((prevProducts) =>
+    updateStock((prevProducts) =>
       prevProducts.map((product) =>
         product.id === id
           ? { ...product, stock: Math.max(product.stock - 1, 0) }
@@ -104,35 +98,31 @@ const CartProvider = ({ children }) => {
     const cartItem = cart.find((item) => item.id === id);
 
     if (cartItem) {
-      const newCart = cart.map((item) =>
-        item.id === id
-          ? { ...item, amount: Math.max(item.amount - 1, 0) }
-          : item
-      );
-      setCart(newCart);
-    }
+      const newAmount = Math.max(cartItem.amount - 1, 0);
 
-    // Update stock when the item amount is decreased
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === id ? { ...product, stock: product.stock + 1 } : product
-      )
-    );
+      if (newAmount === 0) {
+        // Remove item from cart if amount becomes 0
+        removeFromCart(id);
+      } else {
+        const newCart = cart.map((item) =>
+          item.id === id ? { ...item, amount: newAmount } : item
+        );
+        setCart(newCart);
+
+        // Update stock when the item amount is decreased
+        updateStock(id, cartItem.stock);
+      }
+    }
   };
 
   const clearCart = () => {
     // Restore stock for each item in the cart
     cart.forEach((item) => {
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === item.id
-            ? { ...product, stock: product.stock + item.amount }
-            : product
-        )
-      );
+      // Mengembalikan stok produk saat keranjang dikosongkan
+      updateStock(item.id, item.stock);
     });
 
-    // Clear the cart
+    // Setel keranjang menjadi kosong setelah mengembalikan stok
     setCart([]);
   };
 
